@@ -1,7 +1,10 @@
 import { Router } from "express";
 import * as tracks from "../controllers/tracks.js";
 import * as storage from '../controllers/storage.js'
+// MIDDLEWARES
 import { uploadMiddleware } from "../utils/handlerStorage.js";
+import { validatorCreateItem } from '../validators/tracks.js'
+import {customHeader} from '../middlewares/customHeader.js'
 
 
 const router = Router();
@@ -16,7 +19,7 @@ router.get('/tracks', tracks.getItems)
 router.get('/:id', tracks.getItem)
 
 // CREATE
-router.post('/tracks', tracks.createItem);
+router.post('/tracks', validatorCreateItem, customHeader, tracks.createItem);
 
 
 // ###############
