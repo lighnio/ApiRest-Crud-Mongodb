@@ -19,7 +19,7 @@ router.get('/tracks', tracks.getItems)
 router.get('/:id', tracks.getItem)
 
 // CREATE
-router.post('/tracks', validatorCreateItem, customHeader, tracks.createItem);
+router.post('/tracks', validatorCreateItem, tracks.createItem);
 
 
 // ###############
