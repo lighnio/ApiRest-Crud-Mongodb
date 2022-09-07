@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongooseDelete from "mongoose-delete";
 
 const StoreSchema = new mongoose.Schema({
         url: {
@@ -14,4 +15,5 @@ const StoreSchema = new mongoose.Schema({
     }
 )
 
+StoreSchema.plugin(mongooseDelete, {overrideMethods: "all"});
 export const schema = mongoose.model("storage", StoreSchema)

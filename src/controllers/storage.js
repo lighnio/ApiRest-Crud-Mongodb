@@ -1,5 +1,13 @@
 import {models} from '../models/index.js'
 import { PUBLIC_URL } from '../../config.js';
+import {handleHttpError} from '../utils/handleErrors.js'
+import { matchedData } from 'express-validator';
+import {unlinkSync} from 'fs';
+
+import { fileURLToPath } from 'url';
+import { dirname } from "path";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
  * 
@@ -8,8 +16,12 @@ import { PUBLIC_URL } from '../../config.js';
  * Get all items
  */
 export const getItems = async (req, res) => {
-    const data = await models.storageModel.find({})
-    res.send({data});
+    try {
+        const data = await models.storageModel.find({})
+        res.send({data});
+    } catch (e) {
+        handleHttpError(res, "Error getting storage items")
+    }
 }
 
 
@@ -17,9 +29,17 @@ export const getItems = async (req, res) => {
  * 
  * @param {*} req 
  * @param {*} res 
- * Get one item by id
+ * Get one track by id
  */
-export const getItem = (req, res) => {}
+export const getItem = async (req, res) => {
+    try {
+        const {id} = matchedData(req)
+        const data = await models.storageModel.findById(id)
+        res.send({data});
+    } catch (e) {
+        handleHttpError(res, "Error getting storage")
+    }
+}
 
 
 /**
@@ -29,13 +49,17 @@ export const getItem = (req, res) => {}
  * Create item
  */
 export const createItem = async (req, res) => {
-    const {body, file} = req;
-    const fileData = {
-        filename: file.filename,
-        url: `${PUBLIC_URL}/${file.filename}`
+    try {
+        const {file} = req;
+        const fileData = {
+            filename: file.filename,
+            url: `${PUBLIC_URL}/${file.filename}`
+        }
+        const data = await models.storageModel.create(fileData)
+        res.send({data})
+    } catch (e) {
+        console.log(e);
     }
-    const data = await models.storageModel.create(fileData)
-    res.send({data})
 }
 
 
@@ -45,7 +69,7 @@ export const createItem = async (req, res) => {
  * @param {*} res 
  * Update item by id
  */
-export const updateItem = (req, res) => {}
+export const updateItem = async (req, res) => {}
 
 
 /**
@@ -54,4 +78,23 @@ export const updateItem = (req, res) => {}
  * @param {*} res 
  * Delete item by id
  */
-export const deleteItem = (req, res) => {}
+export const deleteItem = async (req, res) => {
+    try {
+        const {id} = matchedData(req)
+        const data = await models.storageModel.findById(id);
+        storageModel.delete({_id: id});
+        console.log("Data:");
+        console.log(data);
+        const {filename} = data;
+        const filepath = `${__dirname}/../${filename}`;
+        unlinkSync(filepath);
+
+        const resData = {
+            filepath,
+            deleted: 1
+        }
+        res.send({resData});
+    } catch (e) {
+        handleHttpError(res, "Error deleting storage")
+    }
+}

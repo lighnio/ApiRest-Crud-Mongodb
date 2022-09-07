@@ -24,7 +24,16 @@ export const getItems = async (req, res) => {
  * @param {*} res 
  * Get one item by id
  */
-export const getItem = (req, res) => {}
+export const getItem = async (req, res) => {
+    try {
+        req = matchedData(req);
+        const {id} = req;
+        const data = await models.tracksModel.findById(id);
+        res.send({data});
+    } catch (e) {
+        handleHttpError(res, "Error getting track")
+    }
+}
 
 
 /**
@@ -51,7 +60,15 @@ export const createItem = async (req, res) => {
  * @param {*} res 
  * Update item by id
  */
-export const updateItem = (req, res) => {}
+export const updateItem = async (req, res) => {
+    try {
+        const {id, ...body} = matchedData(req);
+        const data = await models.tracksModel.findOneAndUpdate(id, body);
+        res.send({data});
+    } catch (e) {
+        handleHttpError(res, "Error updating track")
+    }
+}
 
 
 /**
@@ -60,4 +77,14 @@ export const updateItem = (req, res) => {}
  * @param {*} res 
  * Delete item by id
  */
-export const deleteItem = (req, res) => {}
+export const deleteItem = async (req, res) => {
+    try {
+        req = matchedData(req);
+        const {id} = req;
+        console.log("DELETING ONE", id);
+        const data = await models.tracksModel.delete({_id:id});
+        res.send({data});
+    } catch (e) {
+        handleHttpError(res, "Error deleting track")
+    }
+}

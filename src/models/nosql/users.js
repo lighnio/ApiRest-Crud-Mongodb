@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import mongooseDelete from "mongoose-delete";
 const UserSchema = new mongoose.Schema({
         name: {
             type: String
@@ -24,5 +24,5 @@ const UserSchema = new mongoose.Schema({
         versionKey: false
     }
 )
-
+UserSchema.plugin(mongooseDelete, {overrideMethods: "all"});
 export const schema = mongoose.model("users", UserSchema)
