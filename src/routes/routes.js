@@ -1,13 +1,27 @@
 import { Router } from "express";
+
+// CONTROLLERS
 import * as tracks from "../controllers/tracks.js";
 import * as storage from '../controllers/storage.js'
+import * as auth from '../controllers/auth.js';
 // MIDDLEWARES
 import { uploadMiddleware } from "../utils/handlerStorage.js";
 import * as valTracks from '../validators/tracks.js'
 import * as valStorage from '../validators/storage.js';
+import * as valAuth  from '../validators/auth.js';
+import { authMiddleware } from "../middlewares/session.js";
 
 
 const router = Router();
+
+// ###############
+// AUTH
+// ###############
+
+router.post('/auth/register', valAuth.validatorRegister, auth.registerCtrl)
+
+
+router.post('/auth/login', valAuth.validatorLogin, auth.loginCtrl); 
 
 // ###############
 // TRACKS
@@ -16,7 +30,7 @@ const router = Router();
 /**
  * Get all tracks
  */
-router.get('/tracks', tracks.getItems)
+router.get('/tracks', authMiddleware, tracks.getItems)
 
 /**
  * Get track by id
@@ -31,7 +45,7 @@ router.post('/tracks', valTracks.validatorCreateItem, tracks.createItem);
 /**
  * Update a track
  */
-router.put('/tracks/:id',valTracks.validatorGetItem, valTracks.validatorCreateItem, tracks.updateItem);
+router.put('/tracks/:id',valTracks.validatorGetItem, valTracks.validatorUpdateItem, tracks.updateItem);
 
 /**
  * Delete track by id
