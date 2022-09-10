@@ -39,8 +39,7 @@ export const validatorCreateItem = [
 export const validatorGetItem = [
     check("id")
     .exists()
-    .notEmpty()
-    .isMongoId(),
+    .notEmpty(),
     (req, res, next) => validateResults(req, res, next)
 ];
 
@@ -75,7 +74,6 @@ export const validatorUpdateItem = [
     .notEmpty(),
     check("mediaId")
     .exists()
-    .notEmpty()
-    .isMongoId(),
+    .notEmpty(),
     (req, res, next) => validateResults(req, res, next)
 ];

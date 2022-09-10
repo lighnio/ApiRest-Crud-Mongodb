@@ -1,5 +1,6 @@
 import { sequalize } from "../../config/mysql.js";
 import { DataTypes } from 'sequelize';
+import {Storage} from './storage.js';
 
 export const Tracks = sequalize.define(
     "tracks",
@@ -37,3 +38,25 @@ export const Tracks = sequalize.define(
         timestamps: true,
     }
 );
+
+/**
+ * Implements personalized model
+ */
+
+Tracks.findAllData = function () {
+    Tracks.belongsTo(Storage, {
+        foreignKey: 'mediaId',
+        as: 'audio'
+    })
+
+    return Tracks.findAll({include: 'audio'})
+};
+
+Tracks.findOneData = function (id) {
+    Tracks.belongsTo(Storage, {
+        foreignKey: 'mediaId',
+        as: 'audio'
+    })
+
+    return Tracks.findOne({where: { id }, include: 'audio'})
+};

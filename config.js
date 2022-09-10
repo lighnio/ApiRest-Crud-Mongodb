@@ -16,4 +16,4 @@ export const MYSQL_PASS = PASS;
 
 export const MYSQL_HOST = 'localhost';
 
-export const ENGINE_BD = 'nosql';
+export const ENGINE_BD = 'mysql';
