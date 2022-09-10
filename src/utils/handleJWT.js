@@ -1,5 +1,9 @@
 import jsonwebtoken from 'jsonwebtoken';
 import { JWT_SECRET } from '../../config.js';
+import {getProperties} from '../utils/handlePropertiesEngine.js';
+
+
+const propertiesKey = getProperties();
 
 
 /**
@@ -9,7 +13,7 @@ import { JWT_SECRET } from '../../config.js';
 export const tokenSign = async (user) => {
     const internalSign = await jsonwebtoken.sign(
         {
-            _id: user._id,
+            [propertiesKey.id]: user[propertiesKey.id],
             role: user.role
         },
         JWT_SECRET,

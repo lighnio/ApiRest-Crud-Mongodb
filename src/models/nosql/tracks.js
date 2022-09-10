@@ -44,7 +44,15 @@ const TrackScheme = new mongoose.Schema({
         timestamps: true,
         versionKey: false
     }
-)
+);
+
+/**
+ * Implements own method related to Storage
+ */
+
+TrackScheme.statics.findAllData = (name) => {
+
+}
 
 TrackScheme.plugin(mongooseDelete, {overrideMethods: "all"});
 export const schema = mongoose.model("tracks", TrackScheme)

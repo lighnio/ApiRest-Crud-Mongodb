@@ -8,8 +8,6 @@ export const dbConnect = () => {
         useNewUrlParser: true,
         useUnifiedTopology: true
     }, (err, res) => {
-        err ? console.log(`Error de conexion: \n${err}`) : console.log('Conexion realizada correctamente');
+        err ? console.log(`Mongo Connection Error: \n${err}`) : console.log('Sucessfull Connection with Mongo');
     })
 }
-
-dbConnect();

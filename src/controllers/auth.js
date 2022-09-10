@@ -40,7 +40,7 @@ export const loginCtrl = async (req, res) => {
     try {
         req = matchedData(req);
         const user = await models.usersModel.findOne({email: req.email})
-        .select('password email role name');
+        // .select('password email role name');
         if (!user){
             handleHttpError(res, "User not exist!", 404);
             return 

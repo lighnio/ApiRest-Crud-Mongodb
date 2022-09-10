@@ -4,7 +4,6 @@ import {validateResults} from '../utils/handlerValidator.js'
 export const validatorGetItem = [
     check("id")
     .exists()
-    .notEmpty()
-    .isMongoId(),
+    .notEmpty(),
     (req, res, next) => validateResults(req, res, next)
 ];

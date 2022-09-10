@@ -1,6 +1,9 @@
 import {handleHttpError} from '../utils/handleErrors.js';
 import { verifyToken } from '../utils/handleJWT.js';
 import { models } from '../models/index.js';
+import { getProperties } from '../utils/handlePropertiesEngine.js';
+
+const propertiesKey = getProperties();
 
 export const authMiddleware = async (req, res, next) => {
     try {
@@ -13,12 +16,12 @@ export const authMiddleware = async (req, res, next) => {
 
         const dataToken = await verifyToken(token);
 
-        if (!dataToken._id){
-            handleHttpError(res, "Error id token", 401);
+        if (!dataToken){
+            handleHttpError(res, "NOT PAYLOAD DATA", 401);
             return
         }
 
-        const user = await models.usersModel.findById(dataToken._id)
+        const user = await models.usersModel.findOne({[propertiesKey.id]: dataToken[propertiesKey.id]})
         req.user = user;
 
         next()

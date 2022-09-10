@@ -10,6 +10,7 @@ import * as valTracks from '../validators/tracks.js'
 import * as valStorage from '../validators/storage.js';
 import * as valAuth  from '../validators/auth.js';
 import { authMiddleware } from "../middlewares/session.js";
+import { checkRol } from "../middlewares/rol.js";
 
 
 const router = Router();
@@ -35,22 +36,22 @@ router.get('/tracks', authMiddleware, tracks.getItems)
 /**
  * Get track by id
  */
-router.get('/tracks/:id', valTracks.validatorGetItem, tracks.getItem);
+router.get('/tracks/:id', authMiddleware, valTracks.validatorGetItem, tracks.getItem);
 
 /**
  * Create a new track
  */
-router.post('/tracks', valTracks.validatorCreateItem, tracks.createItem);
+router.post('/tracks', authMiddleware, checkRol(['user', 'admin']), valTracks.validatorCreateItem, tracks.createItem);
 
 /**
  * Update a track
  */
-router.put('/tracks/:id',valTracks.validatorGetItem, valTracks.validatorUpdateItem, tracks.updateItem);
+router.put('/tracks/:id', authMiddleware, valTracks.validatorGetItem, valTracks.validatorUpdateItem, tracks.updateItem);
 
 /**
  * Delete track by id
  */
-router.delete('/tracks/:id',valTracks.validatorGetItem, tracks.deleteItem);
+router.delete('/tracks/:id', authMiddleware, valTracks.validatorGetItem, tracks.deleteItem);
 
 // ###############
 // STORAGE
