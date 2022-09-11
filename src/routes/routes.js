@@ -12,17 +12,38 @@ import * as valAuth  from '../validators/auth.js';
 import { authMiddleware } from "../middlewares/session.js";
 import { checkRol } from "../middlewares/rol.js";
 
-
 const router = Router();
 
-// ###############
-// AUTH
-// ###############
+
+/**
+ * http://localhost:3000/api
+ * 
+ * Route register new user
+ *  @openapi
+ *  /auth/register:
+ *      post:
+ *          tags: 
+ *              - auth
+ *          summary: "Register New User"
+ *          description: "This route is for registry a new user."
+ *          requestBody: 
+ *              content: 
+ *                  application/json:
+ *                      schema:
+ *                          $ref: "#/components/schemas/authRegister"
+ * 
+ *          responses: 
+ *              '201':
+ *                  description: "User Added Successfully"
+ *              '403':
+ *                  description: "Error validating user"
+ */
+router.post('/auth/login', valAuth.validatorLogin, auth.loginCtrl); 
+
+
 
 router.post('/auth/register', valAuth.validatorRegister, auth.registerCtrl)
 
-
-router.post('/auth/login', valAuth.validatorLogin, auth.loginCtrl); 
 
 // ###############
 // TRACKS

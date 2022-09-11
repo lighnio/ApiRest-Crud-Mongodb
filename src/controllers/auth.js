@@ -24,7 +24,8 @@ export const registerCtrl = async (req, res) => {
             token: await tokenSign(dataUser),
             user: dataUser
         }
-    res.send({ data });
+        res.status(201);
+        res.send({ data });
     } catch (e) {
         handleHttpError(res, "Error registering user");
     }
