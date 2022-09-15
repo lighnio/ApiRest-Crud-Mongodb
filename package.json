@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon app.js --NODE_ENV=development",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --detectOpenHandles -i"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --detectOpenHandles -i --silent"
   },
   "keywords": [],
   "author": "",
