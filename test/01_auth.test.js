@@ -38,7 +38,6 @@ describe("[AUTH] This is the Authentication test for route /api/auth", () => {
     // Test For Login
     test("This may return an 403 - Invalid Password", async () => {
         const newTestAuthLogin = {...testAuthLogin, password: "InvalidPassword"}
-        console.log(newTestAuthLogin);
         const response = await supertest(app)
         .post('/api/auth/login')
         .send(newTestAuthLogin)
@@ -46,5 +45,13 @@ describe("[AUTH] This is the Authentication test for route /api/auth", () => {
         expect(statusCode).toEqual(403)
     });
     
+    // Test For Login
+    test("This may return an 200 - Successfull Login", async () => {
+        const response = await supertest(app)
+        .post('/api/auth/login')
+        .send(testAuthLogin)
+        let statusCode = response.statusCode;
+        expect(statusCode).toEqual(200)
+    });
 
 });
