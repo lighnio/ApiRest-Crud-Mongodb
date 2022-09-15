@@ -1,7 +1,9 @@
 import Sequalize from 'sequelize';
-import { MYSQL_DB, MYSQL_USER, MYSQL_PASS, MYSQL_HOST } from '../../config.js';
+import { MYSQL_DB, MYSQL_DB_TEST, MYSQL_USER, MYSQL_PASS, MYSQL_HOST , NODE_ENV} from '../../config.js';
 
-const db = MYSQL_DB;
+let db;
+NODE_ENV === 'test' ? db = MYSQL_DB_TEST : db = MYSQL_DB;
+
 const user = MYSQL_USER;
 const pass = MYSQL_PASS;
 const host = MYSQL_HOST;
