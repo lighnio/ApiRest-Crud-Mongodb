@@ -82,7 +82,6 @@ export const deleteItem = async (req, res) => {
     try {
         req = matchedData(req);
         const {id} = req;
-        console.log("DELETING ONE", id);
         const data = await models.tracksModel.delete({_id:id});
         res.send({data});
     } catch (e) {

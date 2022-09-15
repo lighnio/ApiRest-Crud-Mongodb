@@ -51,7 +51,7 @@ export const loginCtrl = async (req, res) => {
         const check = await internalCompare(req.password, hashPassword);
 
         if (!check){
-            handleHttpError(res, "Invalid Password", 401);
+            handleHttpError(res, "Invalid Password", 403);
             return 
         }
 

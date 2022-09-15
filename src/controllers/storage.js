@@ -56,6 +56,7 @@ export const createItem = async (req, res) => {
             url: `${PUBLIC_URL}/${file.filename}`
         }
         const data = await models.storageModel.create(fileData)
+        res.status(201);
         res.send({data})
     } catch (e) {
         console.log(e);
@@ -82,19 +83,19 @@ export const deleteItem = async (req, res) => {
     try {
         const {id} = matchedData(req)
         const data = await models.storageModel.findById(id);
-        storageModel.delete({_id: id});
-        console.log("Data:");
-        console.log(data);
+        models.storageModel.delete({_id: id});
         const {filename} = data;
-        const filepath = `${__dirname}/../${filename}`;
+        const filepath = `${__dirname}/../storage/${filename}`;
         unlinkSync(filepath);
 
         const resData = {
             filepath,
             deleted: 1
         }
-        res.send({resData});
+        res.status(200);
+        res.send({data: resData});
     } catch (e) {
+        console.log(e);
         handleHttpError(res, "Error deleting storage")
     }
 }
