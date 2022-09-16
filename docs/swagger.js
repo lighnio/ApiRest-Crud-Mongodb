@@ -21,7 +21,7 @@ const swaggerDefinition = {
             url: 'http://localhost:3000/api'
         },
         {
-            url: 'http://localhost:9080/api'
+            url: 'https://frozen-peak-38407.herokuapp.com/'
         }
     ],
     
