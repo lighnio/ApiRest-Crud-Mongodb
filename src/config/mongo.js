@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
-import { DB_URI, DB_URI_TEST, NODE_ENV } from '../../config.js';
+import {config} from 'dotenv';
+config();
 
 let db_uri;
 
-NODE_ENV === 'test' ? db_uri = DB_URI_TEST : DB_URI;
+process.env.NODE_ENV === 'test' ? db_uri = process.env.DB_URI_TEST : db_uri = process.env.DB_URI;
 
 export const dbConnect = () => {
     mongoose.connect(db_uri, {

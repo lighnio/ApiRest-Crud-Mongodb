@@ -1,4 +1,5 @@
-import { ENGINE_BD } from "../../config.js";
+import {config} from 'dotenv';
+config();
 
 export const getProperties = () => {
     const data = {
@@ -9,5 +10,5 @@ export const getProperties = () => {
             id: 'id'
         }
     }
-    return data[ENGINE_BD];
+    return data[process.env.ENGINE_BD];
 }

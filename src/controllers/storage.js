@@ -1,11 +1,13 @@
 import {models} from '../models/index.js'
-import { PUBLIC_URL } from '../../config.js';
 import {handleHttpError} from '../utils/handleErrors.js'
 import { matchedData } from 'express-validator';
 import {unlinkSync} from 'fs';
 
 import { fileURLToPath } from 'url';
 import { dirname } from "path";
+
+import {config} from 'dotenv';
+config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -53,7 +55,7 @@ export const createItem = async (req, res) => {
         const {file} = req;
         const fileData = {
             filename: file.filename,
-            url: `${PUBLIC_URL}/${file.filename}`
+            url: `${process.env.PUBLIC_URL}/${file.filename}`
         }
         const data = await models.storageModel.create(fileData)
         res.status(201);

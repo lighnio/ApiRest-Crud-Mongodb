@@ -1,6 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
-import { JWT_SECRET } from '../../config.js';
 import {getProperties} from '../utils/handlePropertiesEngine.js';
+import {config} from 'dotenv';
+config();
 
 
 const propertiesKey = getProperties();
@@ -16,7 +17,7 @@ export const tokenSign = async (user) => {
             [propertiesKey.id]: user[propertiesKey.id],
             role: user.role
         },
-        JWT_SECRET,
+        process.env.JWT_SECRET,
         {
             expiresIn:"2h",
         }
@@ -27,7 +28,7 @@ export const tokenSign = async (user) => {
 
 export const verifyToken = async (tokenJwt) => {
     try {
-        return jsonwebtoken.verify(tokenJwt, JWT_SECRET);
+        return jsonwebtoken.verify(tokenJwt, process.env.JWT_SECRET);
     } catch (e) {
         return null
     }

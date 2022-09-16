@@ -1,4 +1,5 @@
-import {ENGINE_BD} from '../../config.js';
+import {config} from 'dotenv';
+config();
 
 // NOSQL
 import {schema as usersSchema} from './nosql/users.js';
@@ -12,7 +13,7 @@ import {Storage as storageSchemaMSQL} from './mysql/storage.js';
 
 let mdels;
 
-(ENGINE_BD === 'nosql') ? (
+(process.env.ENGINE_BD === 'nosql') ? (
     mdels = {
         usersModel: usersSchema,
         tracksModel: tracksSchema,
