@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static("./src/storage"));
-app.use(router);
+app.use('/api/', router);
 app.use('/documentation', swaggerUI.serve, swaggerUI.setup(openApiConf))
 
 process.env.NODE_ENV !== 'test'? app.listen(process.env.PORT || 3000) : '';

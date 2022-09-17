@@ -18,10 +18,10 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://localhost:3000/api'
+            url: 'http://localhost:3000/api/'
         },
         {
-            url: 'https://frozen-peak-38407.herokuapp.com/'
+            url: 'https://frozen-peak-38407.herokuapp.com/api/'
         }
     ],
     
