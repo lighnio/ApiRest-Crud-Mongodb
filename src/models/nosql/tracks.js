@@ -55,7 +55,7 @@ TrackScheme.statics.findAllData = function() {
         {
             $lookup: {
                 from: 'storages',
-                localField: "mediaId",
+                localField: "url",
                 foreignField: "_id",
                 as: "audio",
             },
