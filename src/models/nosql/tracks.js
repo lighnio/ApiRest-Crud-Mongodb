@@ -1,94 +1,91 @@
 import mongoose from "mongoose";
 import mongooseDelete from "mongoose-delete";
 
-const TrackScheme = new mongoose.Schema({
-        name: {
-            type: String
+const TrackScheme = new mongoose.Schema(
+    {
+        name:{
+            type:String
         },
-        album: {
-            type: String
+        album:{
+            type:String
         },
-        cover: {
-            type: String,
+        cover:{
+            type:String,
             validate: {
-                validator: (req) => {
+                validator: (req) =>{
                     return true;
                 },
                 message: "ERROR_URL",
-            },
-        },
-        artist: {
-            name: {
-                type: String,
-            },
-            nickname: {
-                type: String
-            },
-            nationality: {
-                type: String
             }
         },
-        duration: {
-            start: {
-                type: Number
+        artist:{
+            name:{
+                type:String,
             },
-            end: {
-                type: Number
-            }
+            nickname:{
+                type:String,
+            },
+            nationality:{
+                type:String
+            },
         },
-        url: {
-            type: String
+        duration:{
+            start:{
+                type:Number,
+            },
+            end:{
+                type:Number,
+            },
+        },
+        url:{
+            type: String,
         }
     },
     {
-        timestamps: true,
+        timestamps:true, //TODO createdAt , updatedAt
         versionKey: false
     }
-);
+); 
 
-/**
- * Implements own method related to Storage
- */
-
-TrackScheme.statics.findAllData = function() {
+TrackScheme.statics.findAllData = function (){
     const joinData = this.aggregate([
         {
-            $lookup: {
-                from: 'storages',
+            $lookup:{
+                from: "storages",
                 localField: "url",
                 foreignField: "_id",
                 as: "audio",
             },
         },
         {
-            $unwind: "$audio"
+            $unwind:"$audio"
         }
     ])
-
-    return joinData;
+    return joinData
 }
 
-TrackScheme.statics.findOneData = function(id) {
+
+TrackScheme.statics.findOneData = function (id){
     const joinData = this.aggregate([
         {
-            $lookup: {
-                from: 'storages',
+            $match:{
+                _id:mongoose.Types.ObjectId(id)
+            }
+        },
+        {
+            $lookup:{
+                from: "storages",
                 localField: "mediaId",
                 foreignField: "_id",
                 as: "audio",
             },
         },
         {
-            $unwind: "$audio"
+            $unwind:"$audio"
         },
-        {
-            $match: {
-                _id: mongoose.Types.ObjectId(id)
-            }
-        }
+        
     ])
-
-    return joinData;
+    return joinData
 }
 
 TrackScheme.plugin(mongooseDelete, {overrideMethods: "all"});
