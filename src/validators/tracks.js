@@ -30,7 +30,7 @@ export const validatorCreateItem = [
     check("duration.end")
     .exists()
     .notEmpty(),
-    check("mediaId")
+    check("url")
     .exists()
     .notEmpty(),
     (req, res, next) => validateResults(req, res, next)
